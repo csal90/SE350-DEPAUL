@@ -1,5 +1,9 @@
 package hw2;
 
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
 public class MyLinked {
 	static class Node {
 		public Node() {
@@ -52,22 +56,76 @@ public class MyLinked {
 		if (k < 0 || k >= N)
 			throw new IllegalArgumentException();
 
+		if (first == null) { // check if it is null
+			return;
+		}
+
+		Node curr = first;
+		Node prev = null, next = null;
+		int index = 0;
+		while (curr != null && index < k) {
+			index++;
+			prev = curr;
+			curr = curr.next;
+		}
+
+		if (prev == null & curr != null) {
+			first = first.next;
+			N = N - 1;
+		} else {
+			prev.next = curr.next;
+			N = N - 1;
+
+		}
+
 		assert checkInvariants();
 	}
 
 	// reverse the list "in place"... without creating any new nodes
 	public void reverse() {
-
+		if (first == null)
+			return;
+		Node f = first;
+		Node prev = null;
+		Node cur = f;
+		Node nxt = null;
+		while (cur != null) {
+			nxt = cur.next;
+			cur.next = prev;
+			prev = cur;
+			cur = nxt;
+		}
+		f = prev;
+		first = f;
 		assert checkInvariants();
 	}
 
 	// remove
 	public void remove(double item) {
+		if (N == 0) {
+			return;
+		}
 
+		Node prev = first;
+		Node cur = first.next;
+
+		while (cur != null) {
+			if (cur.item == item) {
+				prev.next = cur.next;
+				N--;
+			} else {
+				prev = cur;
+			}
+			cur = cur.next;
+		}
+		if (first.item == item) {
+			N--;
+			first = first.next;
+		}
 		assert checkInvariants();
 	}
 
-// TODO: CONVERT THE FOLLOWING TO JUNIT TESTS
+	// TODO: CONVERT THE FOLLOWING TO JUNIT TESTS
 
 //	private static void testDelete() {
 //		MyLinked b = new MyLinked();

@@ -1,6 +1,7 @@
 package hw2;
 
 import java.util.*; // for comparing arrays in main() tests only
+import java.util.stream.Collectors;
 
 class AssertExp1 {
 
@@ -37,7 +38,15 @@ class AssertExp1 {
 	 */
 	public static int minPosition(double[] list) {
 		// TODO
-		return -1;
+		int pos = 0;
+		Double min = Double.MAX_VALUE;
+		for (int i = 0; i < list.length; i++) {
+			if (list[i] < min) {
+				min = list[i];
+				pos = i;
+			}
+		}
+		return pos;
 	}
 
 	/*
@@ -57,7 +66,13 @@ class AssertExp1 {
 	 */
 	public static int numUnique(double[] list) {
 		// TODO
-		return -1;
+		Set<Double> set = new HashSet<>();
+		for (int i = 0; i < list.length; i++) {
+			if (!set.contains(list[i])) {
+				set.add(list[i]);
+			}
+		}
+		return set.size();
 	}
 
 	/*
@@ -76,8 +91,23 @@ class AssertExp1 {
 	 * 44, 44, 44, 44, 55, 55, 66, 77, 88 })
 	 */
 	public static double[] removeDuplicates(double[] list) {
-		// TODO
-		return new double[] {-1};
-	}
+		int N = list.length - 1;
 
+		if (list.length == 0)
+			return list;
+
+		double[] result = new double[list.length];
+		int j = 0;
+
+		for (int i = 0; i < N; i++) {
+			if (list[i] == list[i + 1]) {
+				continue;
+			}
+			result[j] = list[i];
+			j++;
+		}
+		result[j++] = list[N];
+
+		return Arrays.copyOf(result, j);
+	}
 }
